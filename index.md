@@ -1,9 +1,5 @@
 ---
-permalink: .index
-sidebar: 
-    nav: docs
-   # title: "Navigation"
-   # nav: navigation
+
 ---
 # PoShExpert
 These scripts were created on the expert Powershell class with Tobias Weltner. 

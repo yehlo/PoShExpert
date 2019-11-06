@@ -4,10 +4,10 @@ entries:
   url: /index/
 
 - title: First day summary
-  url: /day1/
+  url: /docs/day1/
 
 - title: Second day summary
-  url: /day2/
+  url: /docs/day2/
 
 - title: About
-  url: /about/
+  url: /docs/about/

@@ -1,5 +1,5 @@
 ---
-permalink: /index/
+permalink: .index
 sidebar: 
     nav: docs
    # title: "Navigation"

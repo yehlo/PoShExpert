@@ -1,9 +1,10 @@
 ---
-permalink: /day1/
+
 ---
 
 # Day 1
 [Back to main](/index)
+[Checkout the code of Tobias on this day.]({{ site.github.repository_url }})
 
 ## Topics
 1. [Invoke-WebRequest vs Invoke-RestMethod](#Invoke)

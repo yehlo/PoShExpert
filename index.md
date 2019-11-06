@@ -11,4 +11,5 @@ Blog of Tobias:
 https://powershell.one/
 
 ## Documentation
-[Day1](/day1)
+[Day1]("{{ /day1 | relative_url }}")
+[Day2]("{{ /day2 | relative_url }}")

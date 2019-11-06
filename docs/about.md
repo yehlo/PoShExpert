@@ -1,5 +1,5 @@
 ---
-permalink: /docs/about
+permalink: /about
 ---
 Haben Sie ein gutes Grundwissen von Powershell und möchten Sie ihr Wissen noch vertiefen. So ist dies der ulitimative PowerShell Kurs.
 

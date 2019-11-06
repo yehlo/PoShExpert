@@ -8,7 +8,7 @@ function Resolve-IP
 {
   <#
       .SYNOPSIS
-      Resolves a computername or IP address NEW
+      Resolves a computername or IP address
 
       .DESCRIPTION
       Uses synchrodnous DNS queries to return current IP address and host name

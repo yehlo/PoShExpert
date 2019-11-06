@@ -23,7 +23,7 @@ As for when to use which I prefer always using RestMethod since there are no typ
 The following is the order of what a powershell commandlet does: 
 
 
-![CmdletWorkflow](./pictures/Cmdlet_Workflow.png)
+![CmdletWorkflow](/assets/images/Cmdlet_Workflow.png)
 
 1. The uppermost priority is the pipeline, whenever one is defined the data is sent there
 2. If no pipeline is defined, the command tries to send the output to a variable 
@@ -45,7 +45,7 @@ A notable feature is the possibility to inspect the source code of classes and f
 Sometimes there are situations where the object properties need to be renamed for further computation. 
 To make use of this properties can be filtered with a hashtable. 
 To following object is used as baseline: 
-```Powershell
+```powershell
 $process = Get-Process | select-object -property id, ProcessName -first 1 
 write-output $process
 # Prints
@@ -55,7 +55,7 @@ write-output $process
 ```
 
 Now only ID and ProcessName are needed and for clearification the ID is renamed to pid. 
-```Powershell
+```powershell
 # first a hashtable doing the necessary computation is needed
 $id =  @{
     Name = 'pid'
@@ -82,7 +82,7 @@ They are really only needed if working with pipelines.
 <b>Process:</b> In the primary block code is executed n-times. Which comes in handy if you have a function that is called by a pipeline that streams an array and hence needs this part to be executed foreach element. 
 <b>End:</b> The end block is run at the total end of code execution. Which means that it the execution has 4 Cmdlets in pipelines the end part is only then executed when the last cmdlet is done. 
 
-```Powershell
+```powershell
 function Get-Something { 
     param 
     (
@@ -125,7 +125,7 @@ These are made possible through the wishlist ```[CmdletBinding()]```
 It is only then needed if the function actually allows for any of the features. 
 So you actually have to create verbose output ```Write-Verbose```to make use of ```-verbose```. 
 
-```Powershell
+```powershell
 # some basic function to show an example
 Function Write-Something {
     [CmdletBinding()]
@@ -155,7 +155,7 @@ If you want to use classes you should also refactor your powershell code to refl
 ## Powershell LifeCycle <a name="PoShLifeCycle"></a>
 The powershell workflow coud be defined as flollows: 
 
-![PoShLifeCycle](./pictures/PoSh_LifeCycle.png)
+![PoShLifeCycle](/assets/images/PoSh_LifeCycle.png)
 
 From powershell 5 onwards you can make use of powershell repositories, which allows for a centralized access point for different modules: 
 ```powershell
@@ -178,7 +178,7 @@ Without having to call ```-ErrorAction stop``` on everycommand you can make use 
 
 ### ErrorVariable
 Another way of working around non-terminating errors is to silence the errors on the command and write all errors out a variable. 
-```Powershell
+```powershell
 # this overwrites the errors variable with every new error
 Get-Childitem C:\ -Recurse -ErrorAction SilentlyContinue -ErrorVariable errors
 # this appends the variable errors with all errors

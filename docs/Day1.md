@@ -1,5 +1,10 @@
+---
+permalink: /day1
+---
+
 # Day 1
-[Back to main](./README.md)
+[Back to main](/index)
+[Checkout the code of Tobias on this day.]({{ site.github.repository_url }})
 
 ## Topics
 1. [Invoke-WebRequest vs Invoke-RestMethod](#Invoke)
@@ -10,7 +15,8 @@
 1. [Begin / Process / End](#FunctionWorkflow)
 1. [Advanced Functions](#advFunctions)
 1. [Classes](#classes)
-1. [Powershell Workflow](#PoShWorkflow)
+1. [Powershell LifeCycle](#PoShLifeCycle)
+1. [Non-Terminating Errors](#errorhandlig)
 
 ## Invoke-WebRequest vs Invoke-RestMethod <a name="Invoke"></a>
 We learned that these both are basically the same with some minor differences.  
@@ -22,7 +28,7 @@ As for when to use which I prefer always using RestMethod since there are no typ
 The following is the order of what a powershell commandlet does: 
 
 
-![CmdletWorkflow](./pictures/Cmdlet_Workflow.png)
+![CmdletWorkflow](/assets/images/Cmdlet_Workflow.png)
 
 1. The uppermost priority is the pipeline, whenever one is defined the data is sent there
 2. If no pipeline is defined, the command tries to send the output to a variable 
@@ -44,7 +50,7 @@ A notable feature is the possibility to inspect the source code of classes and f
 Sometimes there are situations where the object properties need to be renamed for further computation. 
 To make use of this properties can be filtered with a hashtable. 
 To following object is used as baseline: 
-```Powershell
+```powershell
 $process = Get-Process | select-object -property id, ProcessName -first 1 
 write-output $process
 # Prints
@@ -54,7 +60,7 @@ write-output $process
 ```
 
 Now only ID and ProcessName are needed and for clearification the ID is renamed to pid. 
-```Powershell
+```powershell
 # first a hashtable doing the necessary computation is needed
 $id =  @{
     Name = 'pid'
@@ -68,7 +74,6 @@ write-output $processes
 #  pid ProcessName         
 #  --- -----------         
 # 6160 ApplicationFrameHost
-
 ```
 
 ## Pipelines <a name="pipelines"></a>
@@ -81,7 +86,8 @@ They are really only needed if working with pipelines.
 <b>Begin:</b> Code stored in the begin block is executed before anything. It is used to initialize variables etc. 
 <b>Process:</b> In the primary block code is executed n-times. Which comes in handy if you have a function that is called by a pipeline that streams an array and hence needs this part to be executed foreach element. 
 <b>End:</b> The end block is run at the total end of code execution. Which means that it the execution has 4 Cmdlets in pipelines the end part is only then executed when the last cmdlet is done. 
-```Powershell
+
+```powershell
 function Get-Something { 
     param 
     (
@@ -99,21 +105,21 @@ function Get-Something {
 
         # runs before parameter allocation etc.  
         Write-Output "Hi $name"  
-        # return blank, because it runs before 
+        # prints blank, because it runs before 
     } 
 
     process 
     { 
         # runs for all elements of array  
         Write-Output "Hi $name" 
-        # returns foreach name  
+        # prints each name  
     } 
 
     end 
     { 
         # return last element of array only  
         Write-Output "Hi $name" 
-        # returns last name  
+        # prints only last element in array  
     }   
 }
 ```
@@ -124,14 +130,37 @@ These are made possible through the wishlist ```[CmdletBinding()]```
 It is only then needed if the function actually allows for any of the features. 
 So you actually have to create verbose output ```Write-Verbose```to make use of ```-verbose```. 
 
+```powershell
+# some basic function to show an example
+Function Write-Something {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true, Position=0)]
+        [String]
+        $something
+    )
+    Write-Output $something
+    Write-Verbose "some verbose output"
+}
+
+Write-Something -something "hello world"
+# prints:
+# hello world
+
+Write-Something -something "hello world" -Verbose
+# prints:
+# hello world
+# VERBOSE: some verbose output
+```
+
 ## Classes <a name="classes"></a>
 You can use the commonly known classes in powershell to construct objects but you will lose on performance. 
 If you want to use classes you should also refactor your powershell code to reflect the object-oriented way of programming. 
 
-## Powershell Workflow <a name="PoShWorkflow"></a>
+## Powershell LifeCycle <a name="PoShLifeCycle"></a>
 The powershell workflow coud be defined as flollows: 
 
-![PoShWorkFlow](./pictures/PoSh_Workflow.png)
+![PoShLifeCycle](/assets/images/PoSh_LifeCycle.png)
 
 From powershell 5 onwards you can make use of powershell repositories, which allows for a centralized access point for different modules: 
 ```powershell
@@ -147,14 +176,14 @@ Update-Module -name ModuleName
 # actually only possible throught deletion of the module file on the share
 ```
 
-## Uncatchable errors <a name="errorhandlig"></a>
+## Non-Terminating Errors <a name="errorhandlig"></a>
 There are errors that are actually uncatchable if the cmdlet is not specifically told to have ```-ErrorAction Stop```. 
 This is because some of the error types are listed as non-terminating error and these are not catched if the errorAction stop is not specified. 
 Without having to call ```-ErrorAction stop``` on everycommand you can make use of the global variable ```$ErrorActionPreference```. 
 
 ### ErrorVariable
 Another way of working around non-terminating errors is to silence the errors on the command and write all errors out a variable. 
-```Powershell
+```powershell
 # this overwrites the errors variable with every new error
 Get-Childitem C:\ -Recurse -ErrorAction SilentlyContinue -ErrorVariable errors
 # this appends the variable errors with all errors

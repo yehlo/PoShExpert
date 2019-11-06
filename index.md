@@ -1,3 +1,6 @@
+---
+permalink: /index
+---
 # PoShExpert
 These scripts were created on the expert Powershell class with Tobias Weltner. 
 The course was from 05.11.2019 - 07.11.2019 
@@ -12,6 +15,8 @@ Blog of Tobias:
 https://powershell.one/
 
 ## Documentation
-[Day1](./Day1.md)
-[Day2](./Day2.md)
-
+{% for item in site.data.nav.entries %}
+    [{{ item.title }}]("{{ item.url | relative_url }}")
+{% endfor %}
+[Day1]("{{ /day1 | relative_url }}")
+[Day2]("{{  | relative_url }}")

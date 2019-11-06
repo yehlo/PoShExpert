@@ -1,3 +1,10 @@
+---
+permalink: /index/
+sidebar: 
+    nav: docs
+   # title: "Navigation"
+   # nav: navigation
+---
 # PoShExpert
 These scripts were created on the expert Powershell class with Tobias Weltner. 
 The course was from 05.11.2019 - 07.11.2019 
@@ -8,4 +15,4 @@ Blog of Tobias:
 https://powershell.one/
 
 ## Documentation
-[Day1](./Day1.md)
+[Day1](/day1)

@@ -1,5 +1,9 @@
+---
+permalink: /day1/
+---
+
 # Day 1
-[Back to main](./readme.md)
+[Back to main](/index)
 
 ## Topics
 1. [Invoke-WebRequest vs Invoke-RestMethod](#Invoke)

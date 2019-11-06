@@ -11,5 +11,8 @@ Blog of Tobias:
 https://powershell.one/
 
 ## Documentation
+{% for item in site.data.nav.entries %}
+    [{{ item.title }}]("{{ item.url | relative_url }}")
+{% endfor %}
 [Day1]("{{ /day1 | relative_url }}")
-[Day2]("{{ /day2 | relative_url }}")
+[Day2]("{{  | relative_url }}")

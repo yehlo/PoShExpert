@@ -1,3 +1,7 @@
+---
+permalink: /day2
+---
+
 # Day 2
 [Back to main](./README.md)
 

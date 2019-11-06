@@ -1,0 +1,13 @@
+docs_list_title: Navigation
+entries:
+- title: index
+  url: /index/
+
+- title: First day summary
+  url: /day1/
+
+- title: Second day summary
+  url: /day2/
+
+- title: About
+  url: /about/

@@ -1,5 +1,6 @@
 ---
 permalink: /index
+permalink: /
 ---
 # PoShExpert
 These scripts were created on the expert Powershell class with Tobias Weltner. 

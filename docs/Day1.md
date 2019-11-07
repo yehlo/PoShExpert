@@ -27,7 +27,7 @@ As for when to use which I prefer always using RestMethod since there are no typ
 The following is the order of what a powershell commandlet does: 
 
 
-![CmdletWorkflow]({{site.github.repository_url | relative_url }}/blob/master/assets/images/Cmdlet_Workflow.png)
+![CmdletWorkflow](https://raw.githubusercontent.com/yehlo/PoShExpert/master/assets/images/Cmdlet_Workflow.png)
 
 1. The uppermost priority is the pipeline, whenever one is defined the data is sent there
 2. If no pipeline is defined, the command tries to send the output to a variable 
@@ -167,7 +167,7 @@ If you want to use classes you should also refactor your powershell code to refl
 ## Powershell LifeCycle <a name="PoShLifeCycle"></a>
 The powershell workflow coud be defined as flollows: 
 
-![PoShLifeCycle]({{site.github.repository_url | relative_url }}/blob/master/assets/images/PoSh_LifeCycle.png)
+![PoShLifeCycle](https://raw.githubusercontent.com/yehlo/PoShExpert/master/assets/images/PoSh_LifeCycle.png)
 
 From powershell 5 onwards or just with the module ```PowershellGet``` you can make use of powershell repositories, which allows for a centralized access point for different modules: 
 ```powershell

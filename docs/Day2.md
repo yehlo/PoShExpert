@@ -175,7 +175,7 @@ Commands to enable remoting:
 ### Sessions
 If multiple commands need to be invoked in different places of the script a pssession ```New-PSSession``` is the way to go. It initiates the session at a starting point and ```invoke-command -Session $s``` only redirects the specified command without having to (de-)construct the session. 
 
-![CmdletWorkflow]({{site.github.repository_url | relative_url }}/blob/master/assets/images/psremoting.png)
+![CmdletWorkflow](https://raw.githubusercontent.com/yehlo/PoShExpert/master/assets/images/psremoting.png)
 The communication is done through the wsman only. It returns XML patterns which are then interpeted by wsman and transformed to readable powershell objects. 
 
 ### Enter-* 

@@ -19,7 +19,7 @@ If you are not already on the Github pages link please navigate [there](https://
 ## Documentation 
 All days were documented seperately. 
 
-{% for item in site.data.nav.entries %}
+{% for item in site.data.days.days %}
 [{{ item.title }}]({{ item.url | relative_url }})  
 {% endfor %}
 

@@ -9,5 +9,8 @@ entries:
 - title: Second day summary
   url: /day2
 
+- title: Third day summary
+  url: /day3
+
 - title: About
   url: /about

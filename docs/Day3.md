@@ -13,6 +13,7 @@ permalink: /day3
 1. [Speeding Up the Pipeline](#pipeline)
 1. [Unit Tests](#pester)
 1. [GUI](#gui)
+1. [Regex](#regex)
 
 ## Encrypted code <a name="encCode"></a>
 Start a powershell session with ```powershell -noprofile -encodedcommand $encodedComannd```

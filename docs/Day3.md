@@ -16,9 +16,8 @@ permalink: /day3
 1. [Regex](#regex)
 
 ## Encrypted code <a name="encCode"></a>
-Start a powershell session with ```powershell -noprofile -encodedcommand $encodedComannd```
+There are times when you have a long and complex bit of code that has to be run as parameter via ```-Command```. As some might know this posses a lot of complexity in writing the expression. 
 
-To encode a command checkout the following: 
 ```powershell
 $code = {
   $sapi = New-Object -ComObject Sapi.SpVoice
@@ -30,12 +29,13 @@ $code = {
 $bytes = [System.Text.Encoding]::Unicode.GetBytes($Code)
 $encodedCommand = [Convert]::ToBase64String($bytes)
 $encodedCommand
+
+# then run this code as follows
+powershell -noprofile -encodedcommand $encodedComannd
 ```
 
-This comes in handy if you want to run a long code bit in a scheduled task without having to work around complex bits. 
-
 ## Working with WMI <a name="wmi"></a>
-There are two possible ways of working with WMI. 
+There are two possible ways of working with WMI.   
 <b>Get-WmiObject: </b>The legacy command to work with wmi. 
 
 ```powershell
@@ -68,7 +68,7 @@ Get-CimInstance -ClassName Win32_ComputerSystem
 | Readability   | Output as List | Output as table |
 | Properties of Objects | Formated in their base way | Formated as powershell objects |
 | Calling methods | Directly doable on the returned objects | Needs ```Invoke-CimMethod``` to invoke a method |
-| Remoting | Remotes with the old DCOM way seperately foreach command | Supports legacy and mordern remoting with ```New-CimSession``` the protocol is set through ```New-CimSessionOption -Protocol $protocol``` |
+| Remoting | Remotes with the old DCOM way seperately foreach command | Supports legacy and modern remoting with ```New-CimSession``` the protocol is set through ```New-CimSessionOption -Protocol $protocol``` |
 | Speed | Tends to be slower because all methods etc. need to be loaded on ```Get-WmiObject``` | Only does what is needed and as such is faster in general |
 
 ## FormatEnumerationLimit <a name="FormatEnumerationLimit"></a>
@@ -94,8 +94,8 @@ $FormatEnumerationLimit = -1
 # rerun the command from above
 Get-Process w* | sort pagedmemorysize | ft name, threads -Wrap –AutoSize 
 # now prints: 
-Name                                                           Threads
-----                                                           -------
+#Name                                                           Threads
+#----                                                           -------
 # winlogon                                                       {944, 1264, 3068, 88340, 11376}
 # WindowsInternal.ComposableShell.Experiences.TextInput.InputApp {1512, 8948, 1472, 1388, 1384, 11064, 5704, 10480, 10588, 4780, 9560, 4680, 5032, 4956, 4668, 4496, 5600, 5840, 4504, 3256, 3232, 3260, 7432, 1020, 10432, 3220, 11204, 3408, 3424, 9912, 10812, 8164}
 ```
@@ -114,7 +114,7 @@ Function Get-Something {
 
 ## Powershell 6/7 <a name="pwsh"></a>
 Along with being able to run on linux the .exe changed to ```pwsh.exe```. 
-Some of the restriction are that built-in GUIs like ```Out-GridView```. Other restrictions include the missing of several windows .net classes that are not available in pwsh. 
+Some of the restriction are that built-in GUIs like ```Out-GridView``` won't work anylonger. Other restrictions include the missing of several windows .net classes that are not available in .net core. A conclusive list may be found online.
 
 ```powershell
 # install Powershell from online 
@@ -122,7 +122,7 @@ Some of the restriction are that built-in GUIs like ```Out-GridView```. Other re
 Invoke-Expression "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI -Preview"
 ```
 
-modules are stored in a different place: 
+If you install both powershell versions parallel please be aware that a new module path is used with pwsh. 
 
 ```powershell
 $env:PSModulePath -split ';'
@@ -177,7 +177,7 @@ $result = $ps.EndInvoke($handle)
 ```
 
 If arguments are needed you can make use of ```$null = $ps.AddScript($code).AddArgument($Arguments)```.
-To then synchronize data between different thread a synchronized hash is needed which is given to the thread through ```Runspace.SessionStateProxy.SetVariable('dstVar', 'srcVar')```
+To then synchronize data between different threads a synchronized hash is needed which is given to the thread through ```Runspace.SessionStateProxy.SetVariable('dstVar', $srcVar)```
 
 ```powershell
 $syncHash = [hashtable]::Synchronized(@{})
@@ -202,7 +202,7 @@ This performance impact is compensated with the simplicity of working with these
 To boost the performance of these jobs they can be run inside the memory but this won't be covered in this article. 
 
 ## Crossprocess debugging <a name="crProcDeb"></a>
-To debug processes that are run parallel the debuggin always tends to be really complex. 
+To debug processes that are run parallel the debugging tends to be complex. 
 To work around this issue ```Debug-RunSpace``` can be used. 
 
 Checkout this example: 
@@ -222,19 +222,19 @@ Enter-PSHostProcess -id $id
 Get-Runspace
 
 # enter runspace 1
-# runspaces ID 1+ are backgroud processes
+# runspaces ID 1+ are backgroud processes or multithreaded processes of ID 1
 Debug-Runspace -Id 1
 ```
 
-Through this method you can then step through this process. 
+Through this method you can then step through this process and might even see the source code if it isn't encrypted.  
+This is especially then useful if you have scripts that are run form task scheduler which don't behave as planned and need to be debugged.  
 
 ## Speeding Up the Pipeline <a name="pipeline"></a>
-See blog article of Tobias: 
 
-https://powershell.one/tricks/performance/pipeline
+[See blog article of Tobias](https://powershell.one/tricks/performance/pipeline){:target="_blank" rel="noopener"}
 
 ##  Unit Tests <a name="pester"></a>
-Unit tests check the functionality of a function. This allows the developers to edit functions and check these with existing pester checks without having to built a seperate dev environment. 
+Unit tests check the functionality of a <i>function</i>. This allows the developers to edit functions and check these with existing pester checks without having to built a seperate dev environment. 
 
 ```powershell
 # install pester
@@ -316,7 +316,7 @@ $window.MinWidth = 800
 $window.ShowDialog()
 ```
 
-It is best to use an online generator for the WPF xaml and then use powershell to do any necessary computation. 
+It is best to use a xaml generator for the WPF and then use powershell to do any necessary computation.  
 ISESteroids contains several templates for Powershell WPF templates to automatically generate code. 
 
 Since I don't intend to do much with UIs I wont further indulge into it. 
@@ -345,6 +345,6 @@ $Matches
 # 0                              I am yehlo and my user ID is U-1502
 ```
 
-Each ```()``` pair is considered as sub expression and is as such storead in a seperate index of the ```$Matches``` hashtable. 
-The ```0``` index always contains the match of the whole pattern. 
+Each ```()``` pair is considered as sub expression and is as such storead in a seperate index of the ```$Matches``` hashtable.  
+The ```0``` index always contains the match of the whole pattern.  
 Through the expression ```(?<Name>.+)``` the index ```name``` is created in the hashtable and everything that matched the subsequent pattern (here ```.+```) is then stored as the value of the key. If no key is specified through ```?<keyName>``` like ```(U-\d{4})```  the index is incremented starting from ```0``` and the subsequent pattern is stored as value. 

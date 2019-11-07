@@ -27,7 +27,7 @@ As for when to use which I prefer always using RestMethod since there are no typ
 The following is the order of what a powershell commandlet does: 
 
 
-![CmdletWorkflow](/assets/images/Cmdlet_Workflow.png)
+![CmdletWorkflow]({{site.github.repository_url | relative_url }}/assets/images/Cmdlet_Workflow.png)
 
 1. The uppermost priority is the pipeline, whenever one is defined the data is sent there
 2. If no pipeline is defined, the command tries to send the output to a variable 
@@ -37,11 +37,17 @@ The following is the order of what a powershell commandlet does:
 To make use of case 1 and 2 you can use the cmdlet ```Tee-Object```. 
 This sends the output to the next pipeline and allows writing the output out to a variable or a file. 
 
+```powershell
+Get-Process | Tee-Object -Variable processes | Stop-Process -WhatIf
+Write-Output $processes
+# prints all processes found
+```
+
 This allows for log entries or variables from "not fully processed" data. 
 
 ## ISE Steroids <a name="steroids"></a>
 If you are using a windows machine there is the opportunity to use ISE steroids which adds a lot of extended functionalities to the powershell. 
-https://powershell.one/isesteroids/quickstart/overview 
+[ISE Steroids](https://powershell.one/isesteroids/quickstart/overview){:target="_blank" rel="noopener"}
 
 A notable feature is the possibility to inspect the source code of classes and functions. 
 
@@ -152,6 +158,8 @@ Write-Something -something "hello world" -Verbose
 # VERBOSE: some verbose output
 ```
 
+For other advanced parameters checkout [this](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions_advanced_parameters){:target="_blank" rel="noopener"}. 
+
 ## Classes <a name="classes"></a>
 You can use the commonly known classes in powershell to construct objects but you will lose on performance. 
 If you want to use classes you should also refactor your powershell code to reflect the object-oriented way of programming. 
@@ -159,9 +167,9 @@ If you want to use classes you should also refactor your powershell code to refl
 ## Powershell LifeCycle <a name="PoShLifeCycle"></a>
 The powershell workflow coud be defined as flollows: 
 
-![PoShLifeCycle](/assets/images/PoSh_LifeCycle.png)
+![PoShLifeCycle]({{site.github.repository_url | relative_url }}/assets/images/PoSh_LifeCycle.png)
 
-From powershell 5 onwards you can make use of powershell repositories, which allows for a centralized access point for different modules: 
+From powershell 5 onwards or just with the module ```PowershellGet``` you can make use of powershell repositories, which allows for a centralized access point for different modules: 
 ```powershell
 # register the new repository to the user
 Register-PSRepository -Name RepoName -SourceLocation \\some\share -InstallationPolicy Trusted
@@ -178,7 +186,7 @@ Update-Module -name ModuleName
 ## Non-Terminating Errors <a name="errorhandlig"></a>
 There are errors that are actually uncatchable if the cmdlet is not specifically told to have ```-ErrorAction Stop```. 
 This is because some of the error types are listed as non-terminating error and these are not catched if the errorAction stop is not specified. 
-Without having to call ```-ErrorAction stop``` on everycommand you can make use of the global variable ```$ErrorActionPreference```. 
+Without having to call ```-ErrorAction stop``` on every command you can make use of the global variable ```$ErrorActionPreference```. 
 
 ### ErrorVariable
 Another way of working around non-terminating errors is to silence the errors on the command and write all errors out a variable. 

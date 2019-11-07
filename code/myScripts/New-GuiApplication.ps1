@@ -1,5 +1,4 @@
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing") 
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
+Add-Type -AssemblyName PresentationFramework
 
 $window = [System.Windows.Window]::new()
 $window.Title = 'Info'

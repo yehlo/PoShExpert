@@ -11,17 +11,14 @@ All code created was done with powershell 5 and is not guaranteed to run on pwsh
 
 The scripts stored in /code/DayN were all created and presented by Tobias Weltner. 
 He is the owner of these scriptlets and none of the code will be covered or explained in detail. 
-For an explanation of the code visit his ever growing blog https://powershell.one/. 
+For an explanation of the code visit his ever growing [blog](https://powershell.one/.)
 
 ## Documentation
 {% for item in site.data.nav.entries %}
-    [{{ item.title }}]("{{ item.url | relative_url }}")
+    [{{ item.title }}]({{ item.url | relative_url }})  
 {% endfor %}
-[Day1]("{{ /day1 | relative_url }}")
-[Day2]("{{  | relative_url }}")
-
 
 Module from tobias
-install-module -name psonetools -scope CurrentUser -Force
+```install-module -name psonetools -scope CurrentUser -Force``` 
 
 

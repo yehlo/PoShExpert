@@ -1,0 +1,9 @@
+days:
+- title: First day summary
+  url: /day1
+
+- title: Second day summary
+  url: /day2
+
+- title: Third day summary
+  url: /day3

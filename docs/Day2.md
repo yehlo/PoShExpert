@@ -3,7 +3,7 @@ permalink: /day2
 ---
 
 # Day 2
-[Back to main](/index)
+[Checkout the code of Tobias on this day.]({{ site.github.repository_url | relative_url }}/blob/master/code/Day2){:target="_blank" rel="noopener"}
 
 ## Topics
 1. [Profile](#profile)

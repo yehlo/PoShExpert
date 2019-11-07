@@ -3,7 +3,7 @@ permalink: /day3
 ---
 
 # Day 3
-[Back to main](/index)
+[Checkout the code of Tobias on this day.]({{ site.github.repository_url | relative_url }}/blob/master/code/Day3){:target="_blank" rel="noopener"}
 
 ## Topics
 1. [Encrypted code](#encCode)
@@ -62,6 +62,7 @@ Get-CimInstance -ClassName Win32_ComputerSystem
 ```
 
 ### comparison
+
 | Functionality | WMIObject | CimInstance |
 | ------------- | --------- | ----------- |
 | Readability   | Output as List | Output as table |

@@ -10,8 +10,8 @@ Everything discussed in the training is documented in chronological order.
 All code created was done with powershell 5 and is not guaranteed to run on pwsh core or older versions. 
 
 The scripts stored in /code/DayN were all created and presented by Tobias Weltner. 
-He is the owner of these scriptlets and none of the code will be covered or explained in detail. 
-For an explanation of the code visit his ever growing [blog](https://powershell.one/.)
+He is the author of these scriptlets and none of the code will be covered or explained in detail. 
+For an explanation of some code visit his ever growing [blog](https://powershell.one/.)
 
 ## Pages
 If you are not already on the Github pages link please navigate [there](https://yehlo.github.io/PoShExpert/) now. 

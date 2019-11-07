@@ -3,8 +3,7 @@ permalink: /day1
 ---
 
 # Day 1
-[Back to main](/index)  
-[Checkout the code of Tobias on this day.]({{ site.github.repository_url }}/code/Day1)
+[Checkout the code of Tobias on this day.]({{ site.github.repository_url | relative_url }}/blob/master/code/Day1){:target="_blank" rel="noopener"}
 
 ## Topics
 1. [Invoke-WebRequest vs Invoke-RestMethod](#Invoke)

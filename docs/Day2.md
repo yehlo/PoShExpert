@@ -74,6 +74,7 @@ A lot of installation scripts nowadays use powershell and hence are restricted t
 ```
 
 ### Modes explained: 
+
 | ExecutionPolicy        | Explanation           |
 | ------------- | ------------- |
 | Undefined | No protection whatsoever on this level, if everything is set to undefined no scripts can be run |
@@ -84,6 +85,7 @@ A lot of installation scripts nowadays use powershell and hence are restricted t
 | RemoteSigned | Das Script muss remote signiert werden |
 
 ### Scopes explained
+
 | ExecutionPolicy | Explanation |
 | ------------- | ------------- |
 | MachinePolicy | Set by a Group Policy for all users of the computer. |
@@ -122,11 +124,31 @@ Get-SBLEvent |
 Since the log contains any scriptblock that is run on the machine the log needs to be protected from malicious attacks. 
 To limit the access of the log local admin rights are needed. 
 
-<span style="color:red">!link to script!</span>
+```powershell
+# to protect the log
+function Protect-SBLLog
+{
+  $channelAccess = 'O:BAG:SYD:(A;;0x2;;;S-1-15-3-1024-3153509613-960666767-3724611135-2725662640-12138253-543910227-1950414635-4190290187)(A;;0xf0007;;;SY)(A;;0x7;;;BA)(A;;0x7;;;SO)(A;;0x3;;;S-1-5-3)'
+  
+  $Path = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\winevt\Channels\Microsoft-Windows-PowerShell/Operational"
+  #$channelAccess = ((wevtutil gl security) -like 'channelAccess*').Split(' ')[-1]
+  Set-ItemProperty -Path $Path -Name ChannelAccess -Value $channelAccess
+  Restart-Service -Name EventLog -Force
+}
+
+# to allow users to access the log
+function Unprotect-SBLLog
+{
+  $channelAccess = 'O:BAG:SYD:(A;;0x2;;;S-1-15-2-1)(A;;0x2;;;S-1-15-3-1024-3153509613-960666767-3724611135-2725662640-12138253-543910227-1950414635-4190290187)(A;;0xf0007;;;SY)(A;;0x7;;;BA)(A;;0x7;;;SO)(A;;0x3;;;IU)(A;;0x3;;;SU)(A;;0x3;;;S-1-5-3)(A;;0x3;;;S-1-5-33)(A;;0x1;;;S-1-5-32-573)'
+  $Path = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\winevt\Channels\Microsoft-Windows-PowerShell/Operational"
+  Set-ItemProperty -Path $Path -Name ChannelAccess -Value $channelAccess
+  Restart-Service -Name EventLog -Force
+}
+```
 
 ## Powershell 2 <a name="Powershellv2"></a>
 Per default Powershellv2 is installed on any windows machine to help with backwards compatibility. 
-Powershell 2 was the last version without any security features, hence it allows malicious user a lot of additional attack vectors. 
+Powershell 2 was the last version without any security features, hence it gives malicious users a lot of additional attack vectors. 
 
 Some of the security breaches are that there is no connector to any anti virus, no Scriptblocklogging etc. 
 
@@ -138,8 +160,8 @@ Disable-WindowsOptionalFeature -FeatureName MicrosoftWindowsPowerShellV2, Micros
 ## Remoting <a name="psremoting"></a>
 In the world of psremoting there is the differentiation between legacy and universal psremoting. 
 
-<b>Legacy:</b> Legacy psremoting used with a lot of old commands like ```Get-WmiObject -computername```. It works on a process and command level and developers all did their own magic. 
-<b>Universal:</b> Remoting needs to be configured once through wsman and then is able to remote any command locally on the computer. 
+<b>Legacy:</b> Legacy psremoting used with a lot of old commands like ```Get-WmiObject -computername```. It works on a process and command level and developers all did their own magic.   
+<b>Universal:</b> Remoting needs to be configured once through wsman and then is able to remote any command locally on the computer. A lot of the newer commands utilize wsman per default but you could also fallback to ```Invoke-Command``` which opens a connection through wsman and does the necessary calls. 
 
 Commands to enable remoting: 
 ```powershell
@@ -153,7 +175,7 @@ Commands to enable remoting:
 ### Sessions
 If multiple commands need to be invoked in different places of the script a pssession ```New-PSSession``` is the way to go. It initiates the session at a starting point and ```invoke-command -Session $s``` only redirects the specified command without having to (de-)construct the session. 
 
-![CmdletWorkflow](/assets/images/psremoting.png)
+![CmdletWorkflow]({{site.github.repository_url | relative_url }}/assets/images/psremoting.png)
 The communication is done through the wsman only. It returns XML patterns which are then interpeted by wsman and transformed to readable powershell objects. 
 
 ### Enter-* 
@@ -163,13 +185,13 @@ In Powershell there is the additional possibility to enter existing powershell p
 Example: 
 ```powershell
 PS > Enter-PSSession -ComputerName <hostname>
-[<hostname>]: PS > Get-Process powershell* 
+[hostname]: PS > Get-Process powershell* 
 # prints 
 # Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
 # -------  ------    -----      -----     ------     --  -- -----------
 #    1889      99   315616     374828      21.75   5888   1 powershell_ise
 #    1547      93   301408     365064      15.31  10024   1 powershell_ise
-[<hostname>]: PS > Enter-PSHostProcess 10024 
+[hostname]: PS > Enter-PSHostProcess 10024 
 [hostname]: [Process:10024]: PS> # now you can do anything in the context of the signed in user
 [hostname]: [Process:10024]: PS> Start-Process notepad.exe "test" # will start notepad.exe on the user 
 
@@ -211,3 +233,5 @@ Register-PSSessionConfiguration -Name DoubleHopFree -RunAsCredential Administrat
 # to enter this sessions
 Invoke-Command -ComputerName $ComputerName -ConfigurationName DoubleHopFree
 ```
+
+The already mentioned restriction of ways to access the remote powershell is doable through endpoints. Endpoints won't be covered any further and googling is your ally here. 
